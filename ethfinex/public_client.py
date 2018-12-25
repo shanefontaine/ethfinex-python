@@ -14,20 +14,28 @@ class PublicClient(object):
         self.auth = None
         self.session = requests.Session()
 
-    def get_ticker(self, pair) -> list:
+    def get_platform_status(self) -> str:
+        """Get the current status of the platform.
+        Returns:
+            1=operative
+            0=maintenance
+        """
+        return self._send_message('/platform/status')
+
+    def get_ticker(self, pair: str) -> list:
         """Get a list of available currency pairs for trading.
         Returns:
             [
-              BID,
-              BID_SIZE,
-              ASK,
-              ASK_SIZE,
-              DAILY_CHANGE,
-              DAILY_CHANGE_PERC,
-              LAST_PRICE,
-              VOLUME,
-              HIGH,
-              LOW
+                BID,
+                BID_SIZE,
+                ASK,
+                ASK_SIZE,
+                DAILY_CHANGE,
+                DAILY_CHANGE_PERC,
+                LAST_PRICE,
+                VOLUME,
+                HIGH,
+                LOW
             ]
         """
         return self._send_message(f'/ticker/{pair}')
