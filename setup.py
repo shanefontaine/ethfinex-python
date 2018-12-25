@@ -4,11 +4,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="ethfinex",
+    name="ethfinex-python",
     version="0.0.1",
     author="Shane Fontaine",
     author_email="shane6fontaine@gmail.com",
-    description="A python wrapper for the Ethfinex exchange",
+    description="An unofficial python wrapper for the Ethfinex exchange",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/shanefontaine/ethfinex",
