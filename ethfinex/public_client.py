@@ -40,6 +40,38 @@ class PublicClient(object):
         """
         return self._send_message(f'/ticker/{pair}')
 
+    def get_trades(
+        self,
+        pair: str,
+        limit: int = 0,
+        start: int = 0,
+        end: int = 0,
+        sort: int = 0
+    ) -> list:
+        """Get all the pertinent details of the trade, such as price, size and
+        time. `sort=1` will sort results from old to new.
+        Returns:
+        [
+            [
+                ID,
+                MTS,
+                AMOUNT,
+                PRICE
+            ]
+        ]
+        """
+        params = {}
+        if limit:
+            params['limit'] = limit
+        if start and end and start < end:
+            params['start'] = start
+            params['end'] = end
+        else:
+            raise ValueError('The start time cannot be after the end time.')
+        if sort:
+            params['sort'] = sort
+        return self._send_message(f'/trades/{pair}/hist', params=params)
+
     def _send_message(
         self,
         endpoint: str,
@@ -50,6 +82,3 @@ class PublicClient(object):
         url = self.url + endpoint
         r = self.session.request('get', url, params=params, data=data,
                                  auth=self.auth, timeout=30)
-        print(r)
-        print(r.text)
-        return r.json()
