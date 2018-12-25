@@ -3,6 +3,8 @@ test.py
 *.swp
 contracts/
 
+build/
+dist/
 .git/
 wheels/
 *.egg-info/
