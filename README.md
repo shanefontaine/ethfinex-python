@@ -1,5 +1,7 @@
 # ethfinex-python
 
+[![Downloads](https://pepy.tech/badge/ethfinex-python)](https://pepy.tech/project/ethfinex-python)
+
 The unofficial Python client for the [Ethfinex](https://www.ethfinex.com/api_docs) and [Ethfinex Trustless](https://ethfinex.docs.apiary.io/#) APIs.
 
 ##### Provided under MIT License by Shane Fontaine.
@@ -25,6 +27,8 @@ _I am in no way affiliated with or funded by Ethfinex, Ethfinex Trustless, Ethfi
 
 ## TODO
 - Error handling
+- Add tests
+- Add CI
 
 ## Testing
 - TODO
