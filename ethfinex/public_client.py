@@ -107,6 +107,44 @@ class PublicClient(object):
 
         return self._send_message(f'/book/{pair}/{precision}')
 
+    # TODO: Include 'side' for the 'pos.size' calls.
+    def get_stats(self, symbol, key, size, side, section, sort=None):
+        """Various statistics about the requested pair.
+
+        TODO: Clearly define params.
+        The `key` param descriptions are as follows:
+        1. funding.size = Total Active Funding
+        2. credits.size = Active Funding used in positions
+        3. credits.size.sym = Active Funding used in positions (per symbol)
+        4. pos.size = Total Open Position (long / short)
+
+        **Note**: The Ethfinex API has a parameter for `side`, which can be
+        'short' or 'long'. When calling the API on their site, this parameter
+        is not used, so it will not be used here.
+
+        Args:
+            symbol (str): Name of the symbol.
+            key (str): Allowed values: "funding.size", "credits.size",
+                       "credits.size.sym", "pos.size"
+            size (str): Available values: '1m'
+            section (str): Available values: "last", "hist"
+            sort (Optional[int]): Either 0 or 1. If = 1 it sorts results
+                                  returned with old > new
+
+        Returns:
+            [
+                [ MTS, VALUE ],
+                ...
+            ]
+        """
+        params = {}
+        if sort == 1:
+            params['sort'] = 1
+            return self._send_message(f'/stats1/{key}:{size}:{symbol}/{section}',
+                                      params=params)
+
+        return self._send_message(f'/stats1/{key}:{size}:{symbol}/{section}')
+
     def _send_message(self, endpoint, params=None, data=None):
         """Send API request.
 
