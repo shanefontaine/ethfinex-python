@@ -48,32 +48,37 @@ class PublicClient(object):
         time.
 
         Args:
-            pair (str): Name of the pair.
-            limit (Optional[int]): Number of records.
-            start (Optional[int]): Milisecond start time.
-            end (Optional[int]): Milisecond end time.
+            pair (str): Name of the pair
+            limit (Optional[int]): Number of records
+            start (Optional[int]): Milisecond start time
+            end (Optional[int]): Milisecond end time
             sort (Optional[int]): if = 1 sorts results returned with old > new
 
         Returns:
-        [
             [
-                ID,
-                MTS,
-                AMOUNT,
-                PRICE
+                [
+                    ID,
+                    MTS,
+                    AMOUNT,
+                    PRICE
+                ]
             ]
-        ]
         """
         params = {}
         if limit:
             params['limit'] = limit
-        if start and end and start < end:
-            params['start'] = start
-            params['end'] = end
+        if start or end and start < end:
+            if start:
+                params['start'] = start
+            if end:
+                params['end'] = end
+        elif not start and not end:
+            pass
         else:
             raise ValueError('The start time cannot be after the end time.')
         if sort:
             params['sort'] = sort
+
         return self._send_message(f'/trades/{pair}/hist', params=params)
 
     def get_books(self, pair, precision, len=None):
@@ -83,19 +88,19 @@ class PublicClient(object):
         TODO: Clearly deefine precision and len
 
         Args:
-            pair (str): Name of the pair.
+            pair (str): Name of the pair
             precision (str): Level of price aggregation(P0, P1, P2, P3, P4, R0)
             sort (Optional[int]): if = 1 sorts results returned with old > new
             len (Optional[int]): Number of price points ("25", "100")
 
         Returns:
-        [
             [
-                PRICE,
-                COUNT,
-                AMOUNT
+                [
+                    PRICE,
+                    COUNT,
+                    AMOUNT
+                ]
             ]
-        ]
         """
         params = {}
         accepted_len = [25, 100]
@@ -118,9 +123,7 @@ class PublicClient(object):
         3. credits.size.sym = Active Funding used in positions (per symbol)
         4. pos.size = Total Open Position (long / short)
 
-        **Note**: The Ethfinex API has a parameter for `side`, which can be
-        'short' or 'long'. When calling the API on their site, this parameter
-        is not used, so it will not be used here.
+        **Note**: The `side` parameter is only used when `key=pos.size`.
 
         Args:
             symbol (str): Name of the symbol.
@@ -132,18 +135,73 @@ class PublicClient(object):
                                   returned with old > new
 
         Returns:
+            # response with Section = "last"
+            [
+                MTS,
+                VALUE
+            ]
+
+            # response with Section = "hist"
             [
                 [ MTS, VALUE ],
                 ...
             ]
         """
         params = {}
-        if sort == 1:
-            params['sort'] = 1
-            return self._send_message(f'/stats1/{key}:{size}:{symbol}/{section}',
-                                      params=params)
+        if sort:
+            params['sort'] = sort
 
-        return self._send_message(f'/stats1/{key}:{size}:{symbol}/{section}')
+        return self._send_message(f'/stats1/{key}:{size}:{symbol}/{section}',
+                                  params=params)
+
+    def get_candles(self, symbol, time_frame, section,
+                    limit=None, start=None, end=None, sort=None):
+        """Access charting candle info.
+
+        Args:
+            symbol (str): Name of the symbol
+            time_frame (str): Available values: '1m', '5m', '15m', '30m', '1h',
+                              '3h', '6h', '12h', '1D', '7D', '14D', '1M'
+            section (str): Available values: "last", "hist"
+            limit (Optional[int]): Number of candles requested
+            start (Optional[int]): Filter start (ms)
+            end (Optional[int]): Filter end (ms)
+            sort (Optional[int]): if = 1 sorts results returned with old > new
+
+        Returns:
+            # response with Section = "last"
+            [
+                MTS,
+                OPEN,
+                CLOSE,
+                HIGH,
+                LOW,
+                VOLUME
+            ]
+
+            # response with Section = "hist"
+            [
+                [ MTS, OPEN, CLOSE, HIGH, LOW, VOLUME ],
+                ...
+            ]
+        """
+        params = {}
+        if limit:
+            params['limit'] = limit
+        if start or end and start < end:
+            if start:
+                params['start'] = start
+            if end:
+                params['end'] = end
+        elif not start and not end:
+            pass
+        else:
+            raise ValueError('The start time cannot be after the end time.')
+        if sort:
+            params['sort'] = sort
+
+        return self._send_message(f'/candles/trade:{time_frame}:{symbol}/{section}',
+                                  params=params)
 
     def _send_message(self, endpoint, params=None, data=None):
         """Send API request.
@@ -152,8 +210,31 @@ class PublicClient(object):
             endpoint (str): Endpoint (to be added to base URL)
             params (Optional[dict]): HTTP request parameters
             data (Optional[str]): JSON-encoded string payload for POST
+
+        Returns:
+
         """
+        # Convert params to None if they're an empty dict
+        params = None if not params else params
         url = self.url + endpoint
         r = self.session.request('get', url, params=params, data=data,
                                  auth=self.auth, timeout=30)
         return r.json()
+
+if __name__ == '__main__':
+    ethfinex = PublicClient()
+    # symbol = 'fUSD'
+    # key = 'funding.size'
+    # size = '1m'
+    # side = 'long'
+    # section = 'hist'
+    # sort = 0
+
+    # Candles
+    symbol = 'tBTCUSD'
+    time_frame = '1m'
+    section = 'hist'
+    limit = 20
+    # item = ethfinex.get_candles(symbol, key, size, side, section, sort)
+    item = ethfinex.get_candles(symbol, time_frame, section, limit=limit)
+    print(item)
