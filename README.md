@@ -2,6 +2,7 @@
 
 [![Downloads](https://pepy.tech/badge/ethfinex-python)](https://pepy.tech/project/ethfinex-python)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/shanefontaine/ethfinex-python/master/LICENSE)
+
 The unofficial Python client for the [Ethfinex](https://www.ethfinex.com/api_docs) and [Ethfinex Trustless](https://ethfinex.docs.apiary.io/#) APIs.
 
 ##### Provided under MIT License by Shane Fontaine.
@@ -32,3 +33,11 @@ _I am in no way affiliated with or funded by Ethfinex, Ethfinex Trustless, Ethfi
 
 ## Testing
 - TODO
+
+## Changelog
+
+_0.1.0_
+- Fully functional public client.
+
+_0.0.1_
+- Original PyPI release.
