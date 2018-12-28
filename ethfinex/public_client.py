@@ -72,6 +72,34 @@ class PublicClient(object):
             params['sort'] = sort
         return self._send_message(f'/trades/{pair}/hist', params=params)
 
+    def get_books(
+        self,
+        pair: str,
+        precision: str,
+        len: int = None
+    ) -> list:
+        """Get the state of the Bitfinex order book. It is provided on a price
+        aggregated basis, with customizable precision. Precision can be of the
+        form P0, P1, P2, P3, P4, or R0. Len can be 25 or 100.
+        Returns:
+        [
+            [
+                PRICE,
+                COUNT,
+                AMOUNT
+            ]
+        ]
+        """
+        params = {}
+        accepted_len = [25, 100]
+        if len and len in accepted_len:
+            params['len'] = len
+            return self._send_message(f'/book/{pair}/{precision}', params=params)
+        elif len and len not in accepted_len:
+            raise ValueError('The len can only be 25 or 100.')
+
+        return self._send_message(f'/book/{pair}/{precision}')
+
     def _send_message(
         self,
         endpoint: str,
