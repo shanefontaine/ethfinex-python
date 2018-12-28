@@ -16,9 +16,10 @@ class PublicClient(object):
 
     def get_platform_status(self):
         """Get the current status of the platform.
+
         Returns:
-            1=operative
-            0=maintenance
+            1 = operative
+            0 = maintenance
         """
         return self._send_message('/platform/status')
 
@@ -27,6 +28,7 @@ class PublicClient(object):
 
         Args:
             pair (str): Name of the pair.
+
         Returns:
             [
                 BID,
@@ -85,7 +87,14 @@ class PublicClient(object):
         """Get the state of the Bitfinex order book. It is provided on a price
         aggregated basis, with customizable precision.
 
-        TODO: Clearly deefine precision and len
+        **Note**: Precision provides more or less granular information about
+        the books.
+        1. P0 = Price will show the tenths value. Ex: 1234.4
+        2. P1 = Price will be rounded to the nearest whole number. Ex: 1234
+        3. P2 = Price will be rounded to the nearest ten. Ex: 1230
+        4. P3 = Price will be rounded to the nearest hundred. Ex: 1200
+        5. P4 = Price will be rounded to the nearest thousand. Ex: 1000
+        6. R0 = Raw Precision. All raw data provided by Ethfinex.
 
         Args:
             pair (str): Name of the pair
@@ -220,21 +229,3 @@ class PublicClient(object):
         r = self.session.request('get', url, params=params, data=data,
                                  auth=self.auth, timeout=30)
         return r.json()
-
-if __name__ == '__main__':
-    ethfinex = PublicClient()
-    # symbol = 'fUSD'
-    # key = 'funding.size'
-    # size = '1m'
-    # side = 'long'
-    # section = 'hist'
-    # sort = 0
-
-    # Candles
-    symbol = 'tBTCUSD'
-    time_frame = '1m'
-    section = 'hist'
-    limit = 20
-    # item = ethfinex.get_candles(symbol, key, size, side, section, sort)
-    item = ethfinex.get_candles(symbol, time_frame, section, limit=limit)
-    print(item)
