@@ -43,10 +43,10 @@ class PublicClient(object):
     def get_trades(
         self,
         pair: str,
-        limit: int = 0,
-        start: int = 0,
-        end: int = 0,
-        sort: int = 0
+        limit: int = None,
+        start: int = None,
+        end: int = None,
+        sort: int = None
     ) -> list:
         """Get all the pertinent details of the trade, such as price, size and
         time. `sort=1` will sort results from old to new.
@@ -110,3 +110,4 @@ class PublicClient(object):
         url = self.url + endpoint
         r = self.session.request('get', url, params=params, data=data,
                                  auth=self.auth, timeout=30)
+        return r.json()
