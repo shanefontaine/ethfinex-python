@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ethfinex-python",
-    version="0.0.1",
+    version="0.1.0",
     author="Shane Fontaine",
     author_email="shane6fontaine@gmail.com",
     description="An unofficial python wrapper for the Ethfinex exchange",
