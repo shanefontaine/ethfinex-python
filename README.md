@@ -23,5 +23,8 @@ _I am in no way affiliated with or funded by Ethfinex, Ethfinex Trustless, Ethfi
 ## Examples
 - TODO
 
+## TODO
+- Error handling
+
 ## Testing
 - TODO
