@@ -115,11 +115,10 @@ class PublicClient(object):
         accepted_len = [25, 100]
         if len and len in accepted_len:
             params['len'] = len
-            return self._send_message(f'/book/{pair}/{precision}', params=params)
         elif len and len not in accepted_len:
             raise ValueError('The len can only be 25 or 100.')
 
-        return self._send_message(f'/book/{pair}/{precision}')
+        return self._send_message(f'/book/{pair}/{precision}', params=params)
 
     # TODO: Include 'side' for the 'pos.size' calls.
     def get_stats(self, symbol, key, size, side, section, sort=None):
@@ -209,7 +208,8 @@ class PublicClient(object):
         if sort:
             params['sort'] = sort
 
-        return self._send_message(f'/candles/trade:{time_frame}:{symbol}/{section}',
+        url = 'candles/trade:'
+        return self._send_message(f'{url}{time_frame}:{symbol}/{section}',
                                   params=params)
 
     def _send_message(self, endpoint, params=None, data=None):
