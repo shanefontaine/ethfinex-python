@@ -58,7 +58,7 @@ class PublicClient(object):
             limit (Optional[int]): Number of records
             start (Optional[int]): Milisecond start time
             end (Optional[int]): Milisecond end time
-            sort (Optional[int]): if = 1 sorts results returned with old > new
+            sort (Optional[int]): if = 1 sorts results returned with old to new
 
         Returns:
             [
@@ -103,7 +103,7 @@ class PublicClient(object):
         Args:
             pair (str): Name of the pair
             precision (str): Level of price aggregation(P0, P1, P2, P3, P4, R0)
-            sort (Optional[int]): if = 1 sorts results returned with old > new
+            sort (Optional[int]): if = 1 sorts results returned with old to new
             len (Optional[int]): Number of price points ("25", "100")
 
         Returns:
@@ -144,7 +144,7 @@ class PublicClient(object):
             size (str): Available values: '1m'
             section (str): Available values: "last", "hist"
             sort (Optional[int]): Either 0 or 1. If = 1 it sorts results
-                                  returned with old > new
+                                  returned with old to new
 
         Returns:
             # response with Section = "last"
@@ -180,7 +180,7 @@ class PublicClient(object):
             limit (Optional[int]): Number of candles requested
             start (Optional[int]): Filter start (ms)
             end (Optional[int]): Filter end (ms)
-            sort (Optional[int]): if = 1 sorts results returned with old > new
+            sort (Optional[int]): if = 1 sorts results returned with old to new
 
         Returns:
             # response with Section = "last"
