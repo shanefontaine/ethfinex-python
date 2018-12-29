@@ -124,7 +124,7 @@ class PublicClient(object):
         return self._send_message(f'/book/{pair}/{precision}', params=params)
 
     # TODO: Add `side` to params. It currently does nothing.
-    def get_stats(self, symbol, key, size, side, section, sort=None):
+    def get_stats(self, symbol, key, side, section, sort=None):
         """Various statistics about the requested pair.
 
         TODO: Clearly define params.
@@ -140,7 +140,6 @@ class PublicClient(object):
             symbol (str): Name of the symbol.
             key (str): Allowed values: "funding.size", "credits.size",
                        "credits.size.sym", "pos.size"
-            size (str): Available values: '1m'
             side (str): Available values: "short", "long"
             section (str): Available values: "last", "hist"
             sort (Optional[int]): Either 0 or 1. If = 1 it sorts results
@@ -163,7 +162,7 @@ class PublicClient(object):
         if sort:
             params['sort'] = sort
 
-        return self._send_message(f'/stats1/{key}:{size}:{symbol}/{section}',
+        return self._send_message(f'/stats1/{key}:1m:{symbol}/{section}',
                                   params=params)
 
     def get_candles(self, symbol, time_frame, section,
