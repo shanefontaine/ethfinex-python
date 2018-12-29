@@ -123,7 +123,7 @@ class PublicClient(object):
 
         return self._send_message(f'/book/{pair}/{precision}', params=params)
 
-    # TODO: Include 'side' for the 'pos.size' calls.
+    # TODO: Add `side` to params. It currently does nothing.
     def get_stats(self, symbol, key, size, side, section, sort=None):
         """Various statistics about the requested pair.
 
@@ -141,6 +141,7 @@ class PublicClient(object):
             key (str): Allowed values: "funding.size", "credits.size",
                        "credits.size.sym", "pos.size"
             size (str): Available values: '1m'
+            side (str): Available values: "short", "long"
             section (str): Available values: "last", "hist"
             sort (Optional[int]): Either 0 or 1. If = 1 it sorts results
                                   returned with old to new
