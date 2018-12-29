@@ -16,19 +16,16 @@ class TestPublicClient(object):
     def teardown_method():
         time.sleep(.5)  # Avoid rate limit
 
-    @pytest.mark.skip
     def test_get_platform_status(self, client):
         r = client.get_platform_status()
         assert type(r) is list
 
-    @pytest.mark.skip
     @pytest.mark.parametrize('pair', ['tBTCUSD', 'tETHBTC'])
     def test_get_ticker(self, client, pair):
         r = client.get_ticker(pair)
         assert type(r) is list
         assert len(r) is 10
 
-    @pytest.mark.skip
     @pytest.mark.parametrize('pair, limit, start, end, sort', [
         ('tBTCUSD', 120, None, None, 0),
         ('tBTCUSD', 120, 1514764800000, 1514765700000, 0),
@@ -58,7 +55,6 @@ class TestPublicClient(object):
         else:
             assert r[0][1] >= r[1][1]
 
-    @pytest.mark.skip
     @pytest.mark.parametrize('pair, precision, length', [
         ('tBTCUSD', 'P0', None),
         ('tBTCUSD', 'P0', 25),
@@ -102,7 +98,6 @@ class TestPublicClient(object):
         elif precision == 'R0':
             assert len(price == 11)
 
-    @pytest.mark.skip
     @pytest.mark.parametrize('symbol, key, side, section, sort', [
         ('fUSD', 'funding.size', 'long', 'hist', 0),
         ('fUSD', 'credits.size', 'long', 'hist', 0),
@@ -128,7 +123,7 @@ class TestPublicClient(object):
         if sort == 1 and section == 'hist':
             assert r[0][0] <= r[1][0]
         elif sort != 1 and section == 'hist':
-            assert r[0][1] >= r[1][1]
+            assert r[0][0] >= r[1][0]
 
     @pytest.mark.parametrize('symbol, time_frame, section, limit, start, end, sort', [
         ('tBTCUSD', '1m', 'hist', None, None, None, None),
@@ -138,16 +133,16 @@ class TestPublicClient(object):
         ('tBTCUSD', '15m', 'hist', 1, 1514764800000, 1514768400000, 1),
         ('tBTCUSD', '1m', 'last', None, None, None, None),
         ('tBTCUSD', '15m', 'last', 1, 1514764800000, 1514768400000, 1),
+        ('tBTCUSD', '1m', 'last', 1, 1514768400000, 1514764800000, 1),
         pytest.param(None, None, None, None, None, None, None,
                      marks=pytest.mark.xfail),
-        pytest.param('tBTCUSD', '1m', 'last', 1, 1514764800000, 1514768400000, 1,
+        pytest.param('tBTCUSD', '1m', 'hist', 1, 1514768400000, 1514764800000, 1,
                      marks=pytest.mark.xfail)
         ])
     def test_get_candles(self, client, symbol, time_frame, section, limit,
                          start, end, sort):
         r = client.get_candles(symbol, time_frame, section, limit,
                                start, end, sort)
-
         # Check length
         if section == 'hist' and limit != 1:
             assert len(r) == 120
@@ -163,4 +158,4 @@ class TestPublicClient(object):
         if sort == 1 and section == 'hist' and limit != 1:
             assert r[0][0] <= r[1][0]
         elif sort != 1 and section == 'hist' and limit != 1:
-            assert r[0][1] >= r[1][1]
+            assert r[0][0] >= r[1][0]
