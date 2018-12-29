@@ -17,9 +17,11 @@ class PublicClient(object):
     def get_platform_status(self):
         """Get the current status of the platform.
 
+        A 0 operative means the platform is in maintenance mode.
+        A 1 operative means that the platform is operative.
+
         Returns:
-            1 = operative
-            0 = maintenance
+            [OPERATIVE]
         """
         return self._send_message('/platform/status')
 
