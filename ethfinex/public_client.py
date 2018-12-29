@@ -199,17 +199,19 @@ class PublicClient(object):
             ]
         """
         params = {}
+        # `start` and `end` do not matter if `section='last'`
+        if section == 'hist':
+            if start or end and start < end:
+                if start:
+                    params['start'] = start
+                if end:
+                    params['end'] = end
+            elif not start and not end:
+                pass
+            else:
+                raise ValueError('The start time cannot be after the end time.')
         if limit:
             params['limit'] = limit
-        if start or end and start < end:
-            if start:
-                params['start'] = start
-            if end:
-                params['end'] = end
-        elif not start and not end:
-            pass
-        else:
-            raise ValueError('The start time cannot be after the end time.')
         if sort:
             params['sort'] = sort
 
