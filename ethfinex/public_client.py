@@ -103,7 +103,6 @@ class PublicClient(object):
         Args:
             pair (str): Name of the pair
             precision (str): Level of price aggregation(P0, P1, P2, P3, P4, R0)
-            sort (Optional[int]): if = 1 sorts results returned with old to new
             len (Optional[int]): Number of price points ("25", "100")
 
         Returns:
