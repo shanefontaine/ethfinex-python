@@ -16,19 +16,16 @@ class TestPublicClient(object):
     def teardown_method():
         time.sleep(.5)  # Avoid rate limit
 
-    @pytest.mark.skip
     def test_get_platform_status(self, client):
         r = client.get_platform_status()
         assert type(r) is list
 
-    @pytest.mark.skip
     @pytest.mark.parametrize('pair', ['tBTCUSD', 'tETHBTC'])
     def test_get_ticker(self, client, pair):
         r = client.get_ticker(pair)
         assert type(r) is list
         assert len(r) is 10
 
-    @pytest.mark.skip
     @pytest.mark.parametrize('pair, limit, start, end, sort', [
         ('tBTCUSD', 120, None, None, 0),
         ('tBTCUSD', 120, 1514764800000, 1514765700000, 0),
