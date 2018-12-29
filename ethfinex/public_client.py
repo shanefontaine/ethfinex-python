@@ -213,7 +213,7 @@ class PublicClient(object):
         if sort:
             params['sort'] = sort
 
-        url = 'candles/trade:'
+        url = '/candles/trade:'
         return self._send_message(f'{url}{time_frame}:{symbol}/{section}',
                                   params=params)
 
