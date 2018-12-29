@@ -79,8 +79,9 @@ class TestPublicClient(object):
         # Check Precision
         price = str(r[0][0])
         if precision == 'P0':
-            digits = len(price.split(".")[1])
-            assert digits == 1
+            digits = len(price.split("."))
+            # Will return either a whole number or a single decimal
+            assert (digits == 1 or digits == 2)
         elif precision == 'P1':
             assert len(price) == 4
         elif precision == 'P2':
