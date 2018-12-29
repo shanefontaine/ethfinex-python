@@ -51,6 +51,8 @@ class PublicClient(object):
         """Get all the pertinent details of the trade, such as price, size and
         time.
 
+        **Note**: `start` and `end` are in MILISECONDS. Each need 13 digits.
+
         Args:
             pair (str): Name of the pair
             limit (Optional[int]): Number of records
@@ -167,6 +169,8 @@ class PublicClient(object):
     def get_candles(self, symbol, time_frame, section,
                     limit=None, start=None, end=None, sort=None):
         """Access charting candle info.
+
+        **Note**: `start` and `end` are in MILISECONDS. Each need 13 digits.
 
         Args:
             symbol (str): Name of the symbol
