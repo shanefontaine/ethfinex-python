@@ -37,6 +37,10 @@ _I am in no way affiliated with or funded by Ethfinex, Ethfinex Trustless, Ethfi
 
 ## Changelog
 
+_0.1.1_
+- Add CI
+- Add `public_client` tests
+
 _0.1.0_
 - Fully functional public client.
 
