@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/shanefontaine/ethfinex-python.svg?branch=master)](https://travis-ci.org/shanefontaine/ethfinex-python)
 [![Downloads](https://pepy.tech/badge/ethfinex-python)](https://pepy.tech/project/ethfinex-python)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/shanefontaine/ethfinex-python/master/LICENSE)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 The unofficial Python client for the [Ethfinex](https://www.ethfinex.com/api_docs) and [Ethfinex Trustless](https://ethfinex.docs.apiary.io/#) APIs.
 
