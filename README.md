@@ -1,5 +1,7 @@
 # ethfinex-python
 
+### This code has been deprecated and should not be used.
+
 [![Build Status](https://travis-ci.org/shanefontaine/ethfinex-python.svg?branch=master)](https://travis-ci.org/shanefontaine/ethfinex-python)
 [![Downloads](https://pepy.tech/badge/ethfinex-python)](https://pepy.tech/project/ethfinex-python)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/shanefontaine/ethfinex-python/master/LICENSE)
